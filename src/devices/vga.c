@@ -2,7 +2,7 @@
  *  megstechcorner.com
  */
 
-#include "devices/vga.h"
+#include "vga.h"
 
 #include <round.h>
 #include <stdint.h>
