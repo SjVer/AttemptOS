@@ -1,9 +1,10 @@
-/**
- *  megstechcorner.com
- */
-
 #include <stdio.h>
 
 int main(void) {
-    printf("Welcome to Meg OS!\n");
-} 
+    printf("kernel initialized.\n");
+    welcome();
+}
+
+void welcome(void) {
+    printf("\nWelcome to AttemptOS!\n");
+}
