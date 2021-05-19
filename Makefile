@@ -21,7 +21,6 @@ CFLAGS = -g -msoft-float -O -fno-stack-protector
 CPPFLAGS = -nostdinc -I$(SRCDIR) -I$(SRCDIR)/lib -I$(SRCDIR)/lib/kernel 
 ASFLAGS = -Wa,--gstabs
 LDFLAGS = -T $(SRCDIR)/link.ld -melf_i386
-DEPS = -MMD -MF $(addprefix $(DEPDIR)/,$(notdir $(@:.o=.d)))
 
 # functions
 rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(subst *,%,$2),$d))
@@ -29,6 +28,7 @@ rwildcard=$(foreach d,$(wildcard $(1:=/*)),$(call rwildcard,$d,$2) $(filter $(su
 # files
 SOURCES = $(call rwildcard,$(SRCDIR),*.c *.S)
 OBJECTS = $(addsuffix .o, $(basename $(SOURCES))) # $(patsubst %.c,%.o,$(patsubst %.S,%.o,$(SOURCES)))
+DEPS = -MMD -MF $(addprefix $(DEPDIR)/,$(notdir $(@:.o=.d)))
 
 # targets
 all: mkdirs elf
@@ -74,10 +74,10 @@ clean:
 check:
 	@printf "Sources:\n"
 	@printf "\t$(SOURCES)\n"
-
 	@printf "Objects:\n"
 	@printf "\t$(addprefix $(OBJDIR), $(notdir $(OBJECTS)))\n"
-
+	@printf "Dependencies:\n"
+	@printf "\t$(DEPS)\n"
 	@printf "Tools:\n"
 	@printf "\t`which $(CC)`\n"
 	@printf "\t`which $(LD)`\n"

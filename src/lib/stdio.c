@@ -1,4 +1,6 @@
 #include <stdio.h>
+#include <stddef.h>
+#include <stdbool.h>
 #include <ctype.h>
 #include <inttypes.h>
 #include <round.h>
