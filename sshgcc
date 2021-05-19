@@ -1,0 +1,60 @@
+#!/bin/bash
+
+# Usage:
+# sshgcc <input file> <command format> <command type>
+#   input file:     the file you want to e.g. compile
+#   command format: the format for the arguments. None by default.
+#                   if 'INFILE' is included in the format it will be replaced by the input file.
+#   command type:   e.g. gcc, ld or ranlib. gcc by default.
+
+REMOTE=sjoerd@192.168.0.100
+PORT=8008
+REMOTEDIR=/home/sjoerd/.compile-temp
+EXECPREFIX="" # will be put before 'gcc', or 'ld' ,etc. example: 'x86_64-elf-'
+
+# set up vars
+if ! [ "$1" ]; then
+	echo E: input file must be given!
+	exit 1
+fi
+INFILE=$1
+if ! [ "$2" ]; then
+    # no format given
+    CFORMAT="$REMOTEDIR/$(basename $INFILE)"
+else
+	CFORMAT="${2//INFILE/$REMOTEDIR/$(basename $INFILE)}"
+fi
+if ! [ "$3" ]; then
+	CTYPE=gcc
+else
+	CTYPE=$3
+fi
+COMMAND="$EXECPREFIX$CTYPE $CFORMAT"
+
+# feedback
+printf "sshgcc:\n"
+printf "\tinput file: $INFILE\n"
+printf "\tformat: $CFORMAT\n"
+printf "\tcommand: $EXECPREFIX$CTYPE\n"
+printf "\tresulting command: $COMMAND\n"
+printf "(if the following actions get stuck the remote might not be reachable)\n\n"
+
+# clear remote dir
+printf "clearing remote directory...\n"
+ssh $REMOTE -p$PORT "rm -rf $REMOTEDIR/*" > /dev/null
+
+# copy input file over
+printf "copying file to remote directory...\n"
+scp -P $PORT $1 $REMOTE:$REMOTEDIR/ > /dev/null
+
+# format and run compilation
+printf "compiling...\n"
+ssh $REMOTE -p$PORT "cd $REMOTEDIR && $COMMAND" > /dev/null
+
+# remove input file
+printf "cleaning up and returning output files..\n"
+ssh $REMOTE -p$PORT "rm $REMOTEDIR/$INFILE" > /dev/null
+
+# return other files (output)
+scp -P $PORT $REMOTE:$REMOTEDIR/* ./ > /dev/null
+printf "done!\n"
