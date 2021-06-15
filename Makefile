@@ -1,10 +1,7 @@
-# @megstechcorner.com
-# All rights reserved.
-
 # customiseable stuff
 NAME = attemptos
-CC = x86_64-elf-gcc
-LD = x86_64-elf-ld
+CC = gcc #x86_64-elf-gcc
+LD = ld #x86_64-elf-ld
 GDB = /bin/gdb-multiarch
 TERMINAL = x-terminal-emulator  
 
@@ -48,6 +45,10 @@ elf: mkdirs $(OBJECTS)
 	@printf "\b\b done!\n"
 
 iso: mkdirs
+	@if ! [ -f $(BINDIR)/kernel.elf ]; then \
+		echo "$(BINDIR)/kernel.elf does not exist. Making it first..."; \
+		make elf; echo "Making $(BINDIR)/kernel.elf done!"; fi
+
 	@printf "preparing iso directory and files..."
 	
 	@mkdir -p $(BINDIR)/iso/boot/grub
@@ -95,3 +96,6 @@ run-debug:
 
 run-iso:
 	@qemu-system-x86_64 -cdrom $(BINDIR)/$(NAME).iso -monitor stdio $(args)
+
+help:
+	@echo "List of available targets:"
