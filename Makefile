@@ -88,6 +88,9 @@ mkdirs:
 	@mkdir -p $(DEPDIR)
 
 run-elf:
+	@if ! [ -f $(BINDIR)/kernel.elf ]; then \
+		echo "$(BINDIR)/kernel.elf does not exist. Making it first..."; \
+		make elf; echo "Making $(BINDIR)/kernel.elf done!"; fi
 	@qemu-system-x86_64 -kernel $(BINDIR)/kernel.elf $(args)
 
 run-debug:
