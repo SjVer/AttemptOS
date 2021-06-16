@@ -1,0 +1,26 @@
+{
+	"folders": [
+		{
+			"path": "."
+		}
+	],
+	"settings": {
+		"open_related_patterns": [
+			".", "./src/kernel.c"
+		]
+	},
+	"build_systems": [
+		{
+			"name": "make elf run-elf",
+			"cmd": ["/usr/bin/make", "-C", "/home/sjoerd/AttemptOS", "elf", "run-elf"]
+		},
+		{
+			"name": "make iso run-iso",
+			"cmd": ["/usr/bin/make", "-C", "/home/sjoerd/AttemptOS", "iso", "run-iso"]
+		},
+		{
+			"name": "make git-push",
+			"cmd": ["/usr/bin/make", "-C", "/home/sjoerd/AttemptOS", "git-push"]
+		}
+	]
+}

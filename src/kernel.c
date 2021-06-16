@@ -7,9 +7,11 @@
 #include "utils.h"
 #include "io.h"
 
-// =====================================================================================
+const char promp_msg[] = "> ";
 
-void input_loop() {
+void prompt() {
+	print_string(promp_msg);
+
 	char ch = 0;
 	char keycode = 0;
 	do {
@@ -22,7 +24,7 @@ void input_loop() {
 			ch = get_ascii_char(keycode);
 			print_char(ch);
 		}
-		sleep(1);
+		sleep(INPUT_SLEEP);
 
 	} while (true);
 }
@@ -33,7 +35,7 @@ int main(void) {
 	print_new_line();
 	print_string("Type here...");
 	print_new_line();
-	input_loop();
+	prompt();
 
 	return 0;
 }

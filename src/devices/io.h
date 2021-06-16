@@ -42,7 +42,7 @@ static uint32 next_line_index = 1;
 uint8 g_fore_color = WHITE, g_back_color = BLUE;
 int digit_ascii_codes[10] = {0x30, 0x31, 0x32, 0x33, 0x34, 0x35, 0x36, 0x37, 0x38, 0x39};
 
-#define CALC_SLEEP 1
+#define INPUT_SLEEP 1
 
 uint16 vga_entry(unsigned char ch, uint8 fore_color, uint8 back_color) 
 {
@@ -210,7 +210,7 @@ int read_int()
       data[index] = ch;
       index++;
     }
-    sleep(CALC_SLEEP);
+    sleep(INPUT_SLEEP);
   }while(ch > 0);
 
   return atoi(data);
@@ -219,9 +219,9 @@ int read_int()
 char getchar()
 {
   char keycode = 0;
-  sleep(CALC_SLEEP);
+  sleep(INPUT_SLEEP);
   keycode = get_input_keycode();
-  sleep(CALC_SLEEP);
+  sleep(INPUT_SLEEP);
   return get_ascii_char(keycode);
 }
 
