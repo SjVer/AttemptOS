@@ -163,3 +163,8 @@ find_cursor (size_t *x, size_t *y)
   *x = cp % COL_CNT;
   *y = cp / COL_CNT;
 }
+
+void vga_cls (void)
+{
+  vga_putc(12);
+}

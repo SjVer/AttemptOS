@@ -2,7 +2,7 @@
 #include <stdarg.h>
 #include <stdio.h>
 
-#include "devices/vga.h"
+#include "vga.h"
 
 static void vprintf_helper (char, void *);
 

@@ -15,7 +15,7 @@ OBJDIR=$(BINDIR)/obj
 TERMFLAGS = -e
 WARNINGS = -Wall -W -Wstrict-prototypes -Wmissing-prototypes -Wsystem-headers
 CFLAGS = -g -msoft-float -O -fno-stack-protector
-CPPFLAGS = -nostdinc -I$(SRCDIR) -I$(SRCDIR)/lib -I$(SRCDIR)/lib/kernel 
+CPPFLAGS = -nostdinc -I$(SRCDIR) -I$(SRCDIR)/lib -I$(SRCDIR)/lib/kernel  -I$(SRCDIR)/devices
 ASFLAGS = -Wa,--gstabs
 LDFLAGS = -T $(SRCDIR)/link.ld -melf_i386
 
@@ -28,7 +28,7 @@ OBJECTS = $(addsuffix .o, $(basename $(SOURCES))) # $(patsubst %.c,%.o,$(patsubs
 DEPS = -MMD -MF $(addprefix $(DEPDIR)/,$(notdir $(@:.o=.d)))
 
 # targets
-all: mkdirs elf
+all: mkdirs elf iso
 %.o: %.c
 	@printf "compiling $<..."
 	@$(CC) -m32 -c $< -o $(OBJDIR)/$(notdir $@) $(CFLAGS) $(CPPFLAGS) $(WARNINGS) $(DEFINES) $(DEPS) -w
@@ -91,14 +91,21 @@ run-elf:
 	@if ! [ -f $(BINDIR)/kernel.elf ]; then \
 		echo "$(BINDIR)/kernel.elf does not exist. Making it first..."; \
 		make elf; echo "Making $(BINDIR)/kernel.elf done!"; fi
-	@qemu-system-x86_64 -kernel $(BINDIR)/kernel.elf $(args)
+	@echo "Running kernel.elf using qemu-system-x86_64..."
+	@qemu-system-x86_64 -kernel $(BINDIR)/kernel.elf $(args) -show-cursor
 
 run-debug:
+	@echo "Running kernel.elf using qemu-system-x86_64 in debug mode..."
 	@$(TERMINAL) $(TERMFLAGS) $(GDB) $(BINDIR)/kernel.elf -x=./gdbinit &
-	@qemu-system-x86_64 -kernel $(BINDIR)/kernel.elf -s -S $(args)
+	@qemu-system-x86_64 -kernel $(BINDIR)/kernel.elf -s -S $(args) -show-cursor
 
 run-iso:
-	@qemu-system-x86_64 -cdrom $(BINDIR)/$(NAME).iso -monitor stdio $(args)
+	@echo "Running $(NAME).iso using qemu-system-x86_64"
+	@qemu-system-x86_64 -cdrom $(BINDIR)/$(NAME).iso -monitor stdio $(args) -show-cursor
 
-help:
-	@echo "List of available targets:"
+git-push:
+	@echo "Adding, committing and pushing to github..."
+	@git add --all
+	@git commit -m upload
+	@git push origin main
+	@echo "Done!"
