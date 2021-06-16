@@ -100,6 +100,9 @@ run-debug:
 	@qemu-system-x86_64 -show-cursor -kernel $(BINDIR)/kernel.elf -s -S $(args)
 
 run-iso:
+	@if ! [ -f $(BINDIR)/$(NAME).iso ]; then \
+		echo "$(BINDIR)/$(NAME).iso does not exist. Making it first..."; \
+		make iso; echo "Making $(BINDIR)/$(NAME).iso done!"; fi
 	@echo "Running $(NAME).iso using qemu-system-x86_64"
 	@qemu-system-x86_64 -cdrom $(BINDIR)/$(NAME).iso -monitor stdio $(args) -show-cursor
 
