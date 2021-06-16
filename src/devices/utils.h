@@ -6,6 +6,7 @@
 extern uint32 strlen(const char*);
 extern uint32 digit_count(int);
 extern void itoa(int, char *);
+extern int atoi(char*);
 
 #endif
 

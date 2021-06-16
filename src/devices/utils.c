@@ -39,6 +39,15 @@ void itoa(int num, char *number)
   }
 }
 
-
-
-
+int atoi(char* s)
+{
+  int len = strlen(s);
+  int i = len - 1;
+  int num = 0, pos = 1;
+  while(i >= 0){
+    num += (s[i] - '0') * pos;
+    pos *= 10;
+    i--;
+  }
+  return num;
+}
