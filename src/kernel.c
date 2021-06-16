@@ -9,7 +9,7 @@
 
 // =====================================================================================
 
-void test_input() {
+void input_loop() {
 	char ch = 0;
 	char keycode = 0;
 	do {
@@ -22,9 +22,9 @@ void test_input() {
 			ch = get_ascii_char(keycode);
 			print_char(ch);
 		}
-		sleep(0x02FFFFFF);
+		sleep(1);
 
-	} while (ch > 0);
+	} while (true);
 }
 
 int main(void) {
@@ -33,7 +33,7 @@ int main(void) {
 	print_new_line();
 	print_string("Type here...");
 	print_new_line();
-	test_input();
+	input_loop();
 
 	return 0;
 }

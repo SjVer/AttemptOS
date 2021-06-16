@@ -2,7 +2,7 @@
 NAME = attemptos
 CC = gcc #x86_64-elf-gcc
 LD = ld #x86_64-elf-ld
-GDB = /bin/gdb-multiarch
+GDB = /usr/bin/gdb-multiarch
 TERMINAL = x-terminal-emulator  
 
 # dirs
@@ -97,7 +97,7 @@ run-elf:
 run-debug:
 	@echo "Running kernel.elf using qemu-system-x86_64 in debug mode..."
 	@$(TERMINAL) $(TERMFLAGS) $(GDB) $(BINDIR)/kernel.elf -x=./gdbinit &
-	@qemu-system-x86_64 -kernel $(BINDIR)/kernel.elf -s -S $(args) -show-cursor
+	@qemu-system-x86_64 -show-cursor -kernel $(BINDIR)/kernel.elf -s -S $(args)
 
 run-iso:
 	@echo "Running $(NAME).iso using qemu-system-x86_64"
