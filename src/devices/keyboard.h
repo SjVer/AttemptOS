@@ -71,7 +71,7 @@
 #define KEY_INSERT 0x52
 #define KEY_KEYPAD_5 0x4C
 #define KEY_KEYPAD_MUL 0x37
-#define KEY_KEYPAD_Minus 0x4A
+#define KEY_KEYPAD_MINUS 0x4A
 #define KEY_KEYPAD_PLUS 0x4E
 #define KEY_KEYPAD_DIV 0x35
 #define KEY_LEFT 0x4B
@@ -83,5 +83,9 @@
 #define KEY_TAB 0x0F
 #define KEY_UP 0x48
 
+#define KEY_SHIFT_L 0x2A
+#define KEY_SHIFT_R 0x36
+#define KEY_CONTROL 0x1D
+// #define KEY_CONTROL_R 
 
 #endif
